@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:service_nest/UserAccount.dart';
+import 'package:service_nest/LoginPage.dart';
 import 'package:service_nest/WorkerAccount.dart';
 
 class Accounttype extends StatefulWidget {
@@ -43,7 +43,8 @@ class _AccounttypeState extends State<Accounttype> {
                   onTap: () {
                     Navigator.of(context)
                         .push(MaterialPageRoute(builder: (context) {
-                      return const Useraccount();
+                      return const Loginpage(
+                      );
                     }));
                   },
                   child: Container(
@@ -55,9 +56,9 @@ class _AccounttypeState extends State<Accounttype> {
                     child: Column(
                       children: [
                         const Padding(
-                          padding: EdgeInsets.only(left: 120, top: 5),
+                          padding: EdgeInsets.only(left: 70, top: 5),
                           child: Text(
-                            "User",
+                            "Customer",
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                         ),
@@ -70,31 +71,33 @@ class _AccounttypeState extends State<Accounttype> {
               ),
               Center(
                   child: GestureDetector(
-                    onTap: () {
-                      Navigator.of(context)
-                          .push(MaterialPageRoute(builder: (context) {
-                        return const Workeraccount();
-                      }));
-                    },
-                    child: Container(
-                        width: 160,
-                        height: 160,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: const Color.fromARGB(255, 241, 173, 24)),
-                        child: Column(children: [
-                          const Padding(
-                            padding: EdgeInsets.only(left: 100, top: 5),
-                            child: Text("Worker",
-                                style: TextStyle(fontWeight: FontWeight.bold)),
-                          ),
-                          Image.asset(
-                            "Assets/workerlast.png",
-                            width: 150,
-                            height: 135,
-                          ),
-                        ])),
-                  ))
+                onTap: () {
+                  Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (context) {
+                    return const Loginpage(
+                    
+                    );
+                  }));
+                },
+                child: Container(
+                    width: 160,
+                    height: 160,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: const Color.fromARGB(255, 241, 173, 24)),
+                    child: Column(children: [
+                      const Padding(
+                        padding: EdgeInsets.only(left: 100, top: 5),
+                        child: Text("Worker",
+                            style: TextStyle(fontWeight: FontWeight.bold)),
+                      ),
+                      Image.asset(
+                        "Assets/workerlast.png",
+                        width: 150,
+                        height: 135,
+                      ),
+                    ])),
+              ))
             ],
           ),
         ],

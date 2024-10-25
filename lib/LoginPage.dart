@@ -3,22 +3,24 @@ import 'package:service_nest/Components/Mybutton.dart';
 import 'package:service_nest/Components/TextInput.dart';
 import 'package:service_nest/Components/passwordTextFeild.dart';
 import 'package:service_nest/ForgotPasswordPage.dart';
-import 'package:service_nest/UserSignuppage.dart';
+import 'package:service_nest/Signuppage.dart';
 
-class Useraccount extends StatefulWidget {
-  const Useraccount({super.key});
+class Loginpage extends StatefulWidget {
+ 
+  const Loginpage({super.key});
 
   @override
-  State<Useraccount> createState() => _UseraccountState();
+  State<Loginpage> createState() => _LoginpageState();
 }
 
-class _UseraccountState extends State<Useraccount> {
+class _LoginpageState extends State<Loginpage> {
   final EmailController = TextEditingController();
   final PasswordController = TextEditingController();
   bool obscure_password = true;
 
   // Sign User In
   void SignUserIn() async {
+    
     showDialog(
         context: context,
         builder: (context) {
@@ -40,7 +42,6 @@ class _UseraccountState extends State<Useraccount> {
       appBar: AppBar(
         toolbarHeight: 35,
         backgroundColor: Colors.transparent,
-        title: const Center(child: Text("User Account")),
         leading: const BackButton(),
       ),
       bottomNavigationBar: BottomAppBar(
@@ -59,13 +60,14 @@ class _UseraccountState extends State<Useraccount> {
               onTap: () {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (BuildContext) {
-                      return Usersiguppage();
-                    }));
+                  return Signuppage(
+                  );
+                }));
               },
               child: const Text(
                 "Register now",
                 style:
-                TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
+                    TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
               ),
             )
           ],
@@ -113,8 +115,8 @@ class _UseraccountState extends State<Useraccount> {
                       onTap: () {
                         Navigator.push(context,
                             MaterialPageRoute(builder: (context) {
-                              return Forgotpasswordpage();
-                            }));
+                          return Forgotpasswordpage();
+                        }));
                       },
                       child: const Text(
                         "Forgot Password?",

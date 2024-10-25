@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:service_nest/AccountType.dart';
-import 'package:service_nest/UserSignuppage.dart';
+import 'package:service_nest/Signuppage.dart';
 import 'package:service_nest/WelcomePage.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:service_nest/WorkerHomepage.dart';
 import 'firebase_options.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,7 +20,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: "Service Nest",
-      home: Welcomepage(),
+      home: Workerhomepage(),
       debugShowCheckedModeBanner: false,
     );
   }

@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:service_nest/Components/Dropdown.dart';
 import 'package:service_nest/Components/Mybutton.dart';
 import 'package:service_nest/Components/TextInput.dart';
 import 'package:service_nest/Components/passwordTextFeild.dart';
-import 'package:service_nest/UserAccount.dart';
+import 'package:service_nest/LoginPage.dart';
 
-class Usersiguppage extends StatelessWidget {
-  Usersiguppage({super.key});
+class Signuppage extends StatelessWidget {
+  Signuppage({super.key});
   final NameController = TextEditingController();
   final EmailController = TextEditingController();
   final PasswordController = TextEditingController();
   final ConfirmPasswordController = TextEditingController();
-
-  // Implement function of SignupUser here
+  final Usertype = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -81,6 +81,10 @@ class Usersiguppage extends StatelessWidget {
                   controller: EmailController,
                   hinttext: "Email",
                   obscuretext: false),
+              const SizedBox(
+                height: 10,
+              ),
+              Dropdown(),
               const SizedBox(
                 height: 10,
               ),
