@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:service_nest/Components/Dropdown.dart';
 import 'package:service_nest/Components/Mybutton.dart';
@@ -27,17 +28,16 @@ class Signuppage extends StatelessWidget {
               );
             });
         return;
-      }
-      else {
-        FirebaseAuth.instance
-            .createUserWithEmailAndPassword(
-                email: EmailController.text, password: PasswordController.text)
-            .then((value) {
+      } else {
+        // Get the selected user type from the dropdown
+        String role = Usertype.text; // Assuming Usertype is updated with the selected role from the dropdown
+
+        signUpUser(EmailController.text, PasswordController.text, role).then((_) {
           print("Account Created");
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => UserHomePage(),
+              builder: (context) => customerHome(),
             ),
           );
         }).catchError((error) {
@@ -45,6 +45,7 @@ class Signuppage extends StatelessWidget {
         });
       }
     }
+
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.grey[300],
@@ -102,7 +103,7 @@ class Signuppage extends StatelessWidget {
               const SizedBox(
                 height: 10,
               ),
-              Dropdown(),
+              Dropdown(), // Ensure Dropdown updates Usertype controller
               const SizedBox(
                 height: 10,
               ),
@@ -132,5 +133,25 @@ class Signuppage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<void> signUpUser(String email, String password, String role) async {
+    try {
+      UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+
+      String uid = userCredential.user!.uid;
+
+      await FirebaseFirestore.instance.collection('Users').doc(uid).set({
+        'email': email,
+        'role': role, // "Worker" or "Customer"
+      });
+
+      print("User signed up successfully and role saved in Firestore.");
+    } catch (e) {
+      print("Error signing up: $e");
+    }
   }
 }

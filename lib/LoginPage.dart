@@ -40,7 +40,7 @@ class _LoginpageState extends State<Loginpage> {
       // Navigate to UserHomePage on successful login
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => const UserHomePage()),
+        MaterialPageRoute(builder: (context) => const customerHome()),
       );
     } on FirebaseAuthException catch (e) {
       // Close loading indicator

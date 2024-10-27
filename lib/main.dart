@@ -4,6 +4,7 @@ import 'package:service_nest/Signuppage.dart';
 import 'package:service_nest/WelcomePage.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:service_nest/WorkerHomepage.dart';
+import 'package:service_nest/auth_page.dart';
 import 'firebase_options.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -18,9 +19,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       title: "Service Nest",
-      home: Welcomepage(),
+      home: AuthWidget(),
       debugShowCheckedModeBanner: false,
     );
   }
