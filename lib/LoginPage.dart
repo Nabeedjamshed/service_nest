@@ -4,9 +4,10 @@ import 'package:service_nest/Components/TextInput.dart';
 import 'package:service_nest/Components/passwordTextFeild.dart';
 import 'package:service_nest/ForgotPasswordPage.dart';
 import 'package:service_nest/Signuppage.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:service_nest/userhome_page.dart';
 
 class Loginpage extends StatefulWidget {
- 
   const Loginpage({super.key});
 
   @override
@@ -20,7 +21,7 @@ class _LoginpageState extends State<Loginpage> {
 
   // Sign User In
   void SignUserIn() async {
-    
+    // Show loading indicator
     showDialog(
         context: context,
         builder: (context) {
@@ -29,10 +30,56 @@ class _LoginpageState extends State<Loginpage> {
           );
         });
 
-    // Authentication Code here
+    // Authentication code
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: EmailController.text,
+        password: PasswordController.text,
+      );
 
-    // When authenticated pop the Circular Progress Indicator
-    Navigator.pop(context);
+      // Navigate to UserHomePage on successful login
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const UserHomePage()),
+      );
+    } on FirebaseAuthException catch (e) {
+      // Close loading indicator
+      Navigator.pop(context);
+
+      // Show error message
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text("Login Failed"),
+            content: Text("Account does not exist"),
+            // content: Text(e.message ?? "Unknown error occurred"),
+          );
+        },
+      );
+    }
+  }
+
+  // Row to provide SignUp option
+  Row signUpOption() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        const Text("Don't have an account?", style: TextStyle(color: Colors.white70)),
+        GestureDetector(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) =>  Signuppage()),
+            );
+          },
+          child: const Text(
+            " Sign Up",
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          ),
+        )
+      ],
+    );
   }
 
   @override
@@ -50,7 +97,7 @@ class _LoginpageState extends State<Loginpage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              "Not a memeber?",
+              "Not a member?",
               style: TextStyle(color: Colors.grey[700]),
             ),
             const SizedBox(
@@ -60,14 +107,12 @@ class _LoginpageState extends State<Loginpage> {
               onTap: () {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (BuildContext) {
-                  return Signuppage(
-                  );
+                  return Signuppage();
                 }));
               },
               child: const Text(
                 "Register now",
-                style:
-                    TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
+                style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
               ),
             )
           ],
@@ -85,7 +130,7 @@ class _LoginpageState extends State<Loginpage> {
                 ),
               ),
               Text(
-                "welcome back, you've been missed!",
+                "Welcome back, you've been missed!",
                 style: TextStyle(color: Colors.grey[700], fontSize: 16),
               ),
               const SizedBox(
@@ -115,7 +160,7 @@ class _LoginpageState extends State<Loginpage> {
                       onTap: () {
                         Navigator.push(context,
                             MaterialPageRoute(builder: (context) {
-                          return Forgotpasswordpage();
+                          return const Forgotpasswordpage();
                         }));
                       },
                       child: const Text(

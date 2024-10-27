@@ -1,12 +1,14 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:service_nest/Components/Dropdown.dart';
 import 'package:service_nest/Components/Mybutton.dart';
 import 'package:service_nest/Components/TextInput.dart';
 import 'package:service_nest/Components/passwordTextFeild.dart';
-import 'package:service_nest/LoginPage.dart';
+import 'package:service_nest/userhome_page.dart';
 
 class Signuppage extends StatelessWidget {
   Signuppage({super.key});
+  
   final NameController = TextEditingController();
   final EmailController = TextEditingController();
   final PasswordController = TextEditingController();
@@ -24,9 +26,25 @@ class Signuppage extends StatelessWidget {
                 title: Text("Password not matched!"),
               );
             });
+        return;
+      }
+      else {
+        FirebaseAuth.instance
+            .createUserWithEmailAndPassword(
+                email: EmailController.text, password: PasswordController.text)
+            .then((value) {
+          print("Account Created");
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => UserHomePage(),
+            ),
+          );
+        }).catchError((error) {
+          print("Error: ${error.toString()}");
+        });
       }
     }
-
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.grey[300],
@@ -98,9 +116,6 @@ class Signuppage extends StatelessWidget {
               Passwordtextfeild(
                 PasswordController: ConfirmPasswordController,
                 hinttext: "Confirm Password",
-              ),
-              const SizedBox(
-                height: 10,
               ),
               const SizedBox(
                 height: 25,
