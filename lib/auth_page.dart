@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:service_nest/LoginPage.dart';
 import 'package:service_nest/Welcomepage.dart';
 import 'package:service_nest/customerHome.dart';
 import 'package:service_nest/workerHome.dart';
@@ -13,10 +12,6 @@ class AuthWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     // Call the function to check user role and redirect
     _checkUserRoleAndRedirect(context);
-    // return customerHome();
-    // return workerHome();
-    
-    // Optionally, you can show a loading spinner while checking
     return const Center(child: CircularProgressIndicator());
   }
 
