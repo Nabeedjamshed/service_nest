@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:service_nest/Components/Mybutton.dart';
 import 'package:service_nest/Components/TextInput.dart';
 import 'package:service_nest/Components/passwordTextFeild.dart';
 import 'package:service_nest/ForgotPasswordPage.dart';
 import 'package:service_nest/Signuppage.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:service_nest/userhome_page.dart';
+import 'package:service_nest/customerHome.dart';  
+import 'package:service_nest/workerHome.dart';  
 
 class Loginpage extends StatefulWidget {
   const Loginpage({super.key});
@@ -15,9 +17,9 @@ class Loginpage extends StatefulWidget {
 }
 
 class _LoginpageState extends State<Loginpage> {
-  final EmailController = TextEditingController();
-  final PasswordController = TextEditingController();
-  bool obscure_password = true;
+  final TextEditingController EmailController = TextEditingController();
+  final TextEditingController PasswordController = TextEditingController();
+  bool obscurePassword = true;
 
   // Sign User In
   void SignUserIn() async {
@@ -32,16 +34,59 @@ class _LoginpageState extends State<Loginpage> {
 
     // Authentication code
     try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
+      // Sign in with Firebase Auth
+      UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: EmailController.text,
         password: PasswordController.text,
       );
 
-      // Navigate to UserHomePage on successful login
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const customerHome()),
-      );
+      // Fetch the user's role from Firestore
+      String uid = userCredential.user!.uid;
+      DocumentSnapshot userDoc = await FirebaseFirestore.instance.collection('users').doc(uid).get();
+
+      // Check if the user document exists and get the role
+      if (userDoc.exists) {
+        String role = userDoc['role'];
+
+        // Close the loading indicator
+        Navigator.pop(context);
+
+        // Redirect based on the role
+        if (role == 'Customer') {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => const customerHome()),
+          );
+        } else if (role == 'Worker') {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => const workerHome()),  
+          );
+        } else {
+          // Handle any unexpected role
+          showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                title: const Text("Invalid Role"),
+                content: const Text("An unexpected role was found for this user."),
+              );
+            },
+          );
+        }
+      } else {
+        // If no user document exists in Firestore
+        Navigator.pop(context);
+        showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: const Text("Error"),
+              content: const Text("User data not found."),
+            );
+          },
+        );
+      }
     } on FirebaseAuthException catch (e) {
       // Close loading indicator
       Navigator.pop(context);
@@ -52,8 +97,7 @@ class _LoginpageState extends State<Loginpage> {
         builder: (context) {
           return AlertDialog(
             title: const Text("Login Failed"),
-            content: Text("Account does not exist"),
-            // content: Text(e.message ?? "Unknown error occurred"),
+            content: Text(e.message ?? "Unknown error occurred"),
           );
         },
       );
@@ -100,14 +144,11 @@ class _LoginpageState extends State<Loginpage> {
               "Not a member?",
               style: TextStyle(color: Colors.grey[700]),
             ),
-            const SizedBox(
-              width: 4,
-            ),
+            const SizedBox(width: 4),
             GestureDetector(
               onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (BuildContext) {
-                  return Signuppage();
+                Navigator.push(context, MaterialPageRoute(builder: (BuildContext) {
+                  return  Signuppage();
                 }));
               },
               child: const Text(
@@ -133,24 +174,18 @@ class _LoginpageState extends State<Loginpage> {
                 "Welcome back, you've been missed!",
                 style: TextStyle(color: Colors.grey[700], fontSize: 16),
               ),
-              const SizedBox(
-                height: 25,
-              ),
+              const SizedBox(height: 25),
               Textinput(
                 controller: EmailController,
                 hinttext: "Email",
                 obscuretext: false,
               ),
-              const SizedBox(
-                height: 10,
-              ),
+              const SizedBox(height: 10),
               Passwordtextfeild(
                 PasswordController: PasswordController,
                 hinttext: "Password",
               ),
-              const SizedBox(
-                height: 10,
-              ),
+              const SizedBox(height: 10),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25.0),
                 child: Row(
@@ -158,30 +193,24 @@ class _LoginpageState extends State<Loginpage> {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) {
                           return const Forgotpasswordpage();
                         }));
                       },
                       child: const Text(
                         "Forgot Password?",
-                        style: TextStyle(
-                            color: Colors.blue, fontWeight: FontWeight.bold),
+                        style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
                       ),
                     ),
                   ],
                 ),
               ),
-              const SizedBox(
-                height: 25,
-              ),
+              const SizedBox(height: 25),
               Mybutton(
                 buttonText: "SignIn",
                 onTap: SignUserIn,
               ),
-              const SizedBox(
-                height: 50,
-              ),
+              const SizedBox(height: 50),
             ],
           ),
         ),

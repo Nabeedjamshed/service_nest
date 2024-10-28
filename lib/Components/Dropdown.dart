@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 class Dropdown extends StatefulWidget {
-  const Dropdown({super.key});
+  final Function(String) getRole; // Callback to pass the selected value
+
+  Dropdown({required this.getRole, super.key});
 
   @override
   State<Dropdown> createState() => _DropdownState();
@@ -9,21 +11,27 @@ class Dropdown extends StatefulWidget {
 
 class _DropdownState extends State<Dropdown> {
   String? selectedValue;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 25),
+      padding: const EdgeInsets.symmetric(horizontal: 25),
       child: DropdownButtonFormField<String>(
         decoration: InputDecoration(
-            enabledBorder: const OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.white)),
-            focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.grey.shade400)),
-            fillColor: Colors.grey.shade200,
-            filled: true,
-            hintText: "Select Role",
-            hintStyle: TextStyle(
-                color: Colors.grey[500], fontWeight: FontWeight.w500)),
+          enabledBorder: const OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.white),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.grey.shade400),
+          ),
+          fillColor: Colors.grey.shade200,
+          filled: true,
+          hintText: "Select Role",
+          hintStyle: TextStyle(
+            color: Colors.grey[500], 
+            fontWeight: FontWeight.w500
+          ),
+        ),
         value: selectedValue,
         items: ['Worker', 'Customer'].map((String value) {
           return DropdownMenuItem<String>(
@@ -34,6 +42,7 @@ class _DropdownState extends State<Dropdown> {
         onChanged: (newValue) {
           setState(() {
             selectedValue = newValue!;
+            widget.getRole(selectedValue!); // Call the callback to update the role
           });
         },
         validator: (value) => value == null ? 'Please select a role' : null,
@@ -41,3 +50,4 @@ class _DropdownState extends State<Dropdown> {
     );
   }
 }
+

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:service_nest/AccountType.dart';
 import 'package:service_nest/Signuppage.dart';
-import 'package:service_nest/WelcomePage.dart';
+import 'package:service_nest/Welcomepage.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:service_nest/WorkerHomepage.dart';
 import 'package:service_nest/auth_page.dart';

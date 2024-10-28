@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:service_nest/LoginPage.dart';
 
 class  workerHome extends StatelessWidget {
   const  workerHome({super.key});
@@ -9,13 +10,15 @@ class  workerHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(child: IconButton(
+      body: Column(children: [Center(child: Text("Worker")),IconButton(
             icon: Icon(Icons.logout),
             onPressed: () {
               SignUserOut();
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context){
+      return Loginpage();
+    }));
   },
-  )
+  )]
     ));
-
   }
 }
