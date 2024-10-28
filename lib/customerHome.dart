@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:service_nest/Components/RoleContainer.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:service_nest/LoginPage.dart';
 
-class Userhomepage extends StatelessWidget {
-  Userhomepage({super.key});
+class customerHome extends StatelessWidget {
+  customerHome({super.key});
   double? deviceWidth;
   double? deviceHeight;
   String? Role;
+  void SignUserOut() async {
+    await FirebaseAuth.instance.signOut();
+  }
+
   @override
   Widget build(BuildContext context) {
     deviceWidth = MediaQuery.of(context).size.width;
@@ -27,9 +33,11 @@ class Userhomepage extends StatelessWidget {
                           );
                         });
 
-                    // SignOut Logic Here
-
-                    Navigator.pop(context);
+                    SignUserOut();
+                    Navigator.pushReplacement(context,
+                        MaterialPageRoute(builder: (context) {
+                      return Loginpage();
+                    }));
                   },
                   icon: Icon(Icons.logout)),
             ],

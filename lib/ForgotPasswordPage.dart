@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';  // Add Firebase Auth import
 import 'package:service_nest/Components/Mybutton.dart';
 import 'package:service_nest/Components/TextInput.dart';
 
@@ -11,8 +12,10 @@ class Forgotpasswordpage extends StatefulWidget {
 
 class _ForgotpasswordpageState extends State<Forgotpasswordpage> {
   final EmailController = TextEditingController();
+  final FirebaseAuth _auth = FirebaseAuth.instance; // Initialize FirebaseAuth
 
-  void ConfirmButton() {
+  void ConfirmButton() async {
+    // Show loading indicator
     showDialog(
         context: context,
         builder: (context) {
@@ -21,10 +24,24 @@ class _ForgotpasswordpageState extends State<Forgotpasswordpage> {
           );
         });
 
-    // Check email exists in Firebase and send email link for forgot password
-    // (write logic here)
+    // Call the resetPassword function
+    await resetPassword();
 
+    // Pop the loading indicator
     Navigator.pop(context);
+  }
+
+  Future<void> resetPassword() async {
+    try {
+      await _auth.sendPasswordResetEmail(email: EmailController.text.trim());
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Password reset email sent!')),
+      );
+    } on FirebaseAuthException catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(e.message ?? 'An error occurred')),
+      );
+    }
   }
 
   @override

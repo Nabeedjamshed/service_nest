@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:math';
-
+import "package:firebase_auth/firebase_auth.dart";
+import 'LoginPage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
@@ -9,19 +10,20 @@ import 'package:service_nest/Components/LocationPicker.dart';
 import 'package:service_nest/Components/Mybutton.dart';
 import 'package:service_nest/Components/TextInput.dart';
 
-class Workerhomepage extends StatefulWidget {
-  Workerhomepage({super.key});
+class workerHome extends StatefulWidget {
+  workerHome({super.key});
 
   @override
-  State<Workerhomepage> createState() => _WorkerhomepageState();
+  State<workerHome> createState() => _workerHomeState();
 }
 
-class _WorkerhomepageState extends State<Workerhomepage> {
+class _workerHomeState extends State<workerHome> {
   @override
   final NameController = TextEditingController();
   final PhoneNumberController = TextEditingController();
   String selectedLocation = "Select your Shop Location";
   File? Image;
+
   final ImagePicker _picker = ImagePicker();
 
   Future<void> imagepicker() async {
@@ -48,6 +50,10 @@ class _WorkerhomepageState extends State<Workerhomepage> {
     }
   }
 
+  void SignUserOut() async {
+    await FirebaseAuth.instance.signOut();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -61,6 +67,28 @@ class _WorkerhomepageState extends State<Workerhomepage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                IconButton(
+                    onPressed: () {
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+                            return const Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          });
+
+                      SignUserOut();
+                      Navigator.pushReplacement(context,
+                          MaterialPageRoute(builder: (context) {
+                        return Loginpage();
+                      }));
+                    },
+                    icon: Icon(Icons.logout)),
+              ],
+            ),
             Center(
                 child: Stack(
               children: [
@@ -131,7 +159,9 @@ class _WorkerhomepageState extends State<Workerhomepage> {
             const SizedBox(
               height: 5,
             ),
-            Dropdown(Items: ["Electrician ", "Plumber", "AC Repairer", "Mad"]),
+            Dropdown(
+                getRole: (String val) {},
+                Items: ["Electrician ", "Plumber", "AC Repairer", "Mad"]),
             const SizedBox(
               height: 5,
             ),
