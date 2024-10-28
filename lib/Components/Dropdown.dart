@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class Dropdown extends StatefulWidget {
-  const Dropdown({super.key});
+  List<String> Items;
+  Dropdown({super.key,required this.Items});
 
   @override
   State<Dropdown> createState() => _DropdownState();
@@ -25,7 +26,7 @@ class _DropdownState extends State<Dropdown> {
             hintStyle: TextStyle(
                 color: Colors.grey[500], fontWeight: FontWeight.w500)),
         value: selectedValue,
-        items: ['Worker', 'Customer'].map((String value) {
+        items: widget.Items.map((String value) {
           return DropdownMenuItem<String>(
             value: value,
             child: Text(value),

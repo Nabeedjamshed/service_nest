@@ -84,7 +84,7 @@ class Signuppage extends StatelessWidget {
               const SizedBox(
                 height: 10,
               ),
-              Dropdown(),
+              Dropdown(Items: ["Worker","Customer"]),
               const SizedBox(
                 height: 10,
               ),
