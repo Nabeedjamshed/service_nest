@@ -1,24 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:service_nest/ParticularWorker.dart';
 
 class Rolecontainer extends StatelessWidget {
   String Role;
   String ImagePath;
   Color ContainerColor;
+  LatLng customerposition;
   Rolecontainer(
       {super.key,
       required this.Role,
       required this.ImagePath,
-      required this.ContainerColor});
+      required this.ContainerColor,
+      required this.customerposition});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        
         Navigator.push(context, MaterialPageRoute(builder: (context) {
           return Particularworker(
             Role: Role,
+            customerPosition: customerposition,
           );
         }));
       },

@@ -1,34 +1,64 @@
 import 'package:flutter/material.dart';
 
 class JobdescriptionContainer extends StatelessWidget {
-  String
-      ImageAddress; //dont forgot to replace this with Image taken from CloudStore
+  String imageUrl;
   String Name;
+  double? deviceWidth;
+  double? deviceHeight;
+  int? number;
+  String address;
   JobdescriptionContainer(
-      {super.key, required this.Name, required this.ImageAddress});
+      {super.key,
+      required this.Name,
+      required this.imageUrl,
+      required this.number,
+      required this.address});
 
   @override
   Widget build(BuildContext context) {
+    deviceWidth = MediaQuery.of(context).size.width;
+    deviceHeight = MediaQuery.of(context).size.height;
+
     return Container(
-      height: 30,
-      width: 30,
+      height: 400,
+      width: deviceWidth! * 0.9,
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20), color: Colors.grey[400]),
+          borderRadius: BorderRadius.circular(5), color: Colors.grey[400]),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          Image.asset(
-            ImageAddress,
-            height: 100,
-            width: 100,
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              Name,
-              style: TextStyle(fontWeight: FontWeight.w500),
+          Container(
+            
+            padding: EdgeInsets.symmetric(horizontal: 5),
+            height: 200,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                  image: AssetImage("Assets/electric$number.jpeg"),
+                  fit: BoxFit.fill),
             ),
-          )
+          ),
+          SizedBox(
+            height: 5,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  Name,
+                  style: TextStyle(fontWeight: FontWeight.w500, fontSize: 25),
+                ),
+              ),
+            ],
+          ),
+          
+          SizedBox(
+            width: deviceWidth! * 0.8,
+            child: Text(
+              address,
+              style: TextStyle(fontWeight: FontWeight.w400, fontSize: 20),
+            ),
+          ),
         ],
       ),
     );

@@ -18,7 +18,7 @@ class AuthWidget extends StatelessWidget {
 Future<void> _checkUserRoleAndRedirect(BuildContext context) async {
   try {
     User? user = await FirebaseAuth.instance.currentUser;
-    print(user?.email);
+    
 
     if (user != null) {
       String uid = user.uid;
@@ -28,6 +28,7 @@ Future<void> _checkUserRoleAndRedirect(BuildContext context) async {
         String role = userDoc['role'];
         
         if (role == 'Worker') {
+          
           Navigator.pushReplacement(context,MaterialPageRoute(builder: (context){
           return workerHome();
         }));

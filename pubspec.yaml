@@ -45,16 +45,21 @@ dependencies:
   permission_handler: ^11.3.1
   http: ^1.2.2
   cloud_firestore: ^5.4.4
+  firebase_storage: ^12.3.4
+  flutter_native_splash: ^2.4.2
+  flutter_map_math: ^0.1.7
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
-  flutter_lints: ^4.0.0
+flutter_lints: ^4.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -71,6 +76,14 @@ flutter:
   assets:
     - Assets/
 
+flutter_native_splash:
+  color: "#FFFFFF"             # Background color of the splash screen
+  image: Assets/ServiceLogo.png # Path to your icon or splash image
+  android: true                 # Enable splash screen for Android
+  ios: true                     # Enable splash screen for iOS
+  web: false                    # Optional: If using Flutter web, set to true
+  android_gravity: center       # Position of the icon/image on the screen
+  ios_content_mode: scaleAspectFit
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
 

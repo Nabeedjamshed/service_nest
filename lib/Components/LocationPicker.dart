@@ -5,7 +5,6 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class LocationPicker extends StatefulWidget {
-
   @override
   _LocationPickerState createState() => _LocationPickerState();
 }
@@ -13,7 +12,7 @@ class LocationPicker extends StatefulWidget {
 class _LocationPickerState extends State<LocationPicker> {
   GoogleMapController? mapController;
   LatLng _currentPosition = LatLng(0, 0);
-  String plusCode="Fetching data....";
+  String plusCode = "Fetching data....";
   bool _loading = true;
 
   @override
@@ -26,7 +25,6 @@ class _LocationPickerState extends State<LocationPicker> {
     loc.Location location = loc.Location();
 
     bool _serviceEnabled;
-    loc.PermissionStatus _permissionGranted;
 
     _serviceEnabled = await location.serviceEnabled();
     if (!_serviceEnabled) {
@@ -36,16 +34,9 @@ class _LocationPickerState extends State<LocationPicker> {
       }
     }
 
-    _permissionGranted = await location.hasPermission();
-    if (_permissionGranted == loc.PermissionStatus.denied) {
-      _permissionGranted = await location.requestPermission();
-      if (_permissionGranted != loc.PermissionStatus.granted) {
-        return;
-      }
-    }
+    
 
     loc.LocationData _locationData = await location.getLocation();
-
 
     setState(() {
       _currentPosition =
@@ -58,7 +49,8 @@ class _LocationPickerState extends State<LocationPicker> {
 
   Future<void> _getAddressFromLatLng(LatLng position) async {
     try {
-      String url = "https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${position.latitude}&lon=${position.longitude}&accept-language=en";
+      String url =
+          "https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${position.latitude}&lon=${position.longitude}&accept-language=en";
       final response = await http.get(Uri.parse(url));
 
       if (response.statusCode == 200) {
@@ -67,7 +59,6 @@ class _LocationPickerState extends State<LocationPicker> {
 
         setState(() {
           plusCode = address;
-          // Since Plus Code is not available in OSM, we'll use the detailed address.
         });
       } else {
         print("Failed to load address");
@@ -83,18 +74,6 @@ class _LocationPickerState extends State<LocationPicker> {
     }
   }
 
-  void _onMapCreated(GoogleMapController controller) {
-    mapController = controller;
-  }
-
-  void _onCameraMove(CameraPosition position) {
-    _currentPosition = position.target;
-  }
-
-  void _onCameraIdle() {
-    _getAddressFromLatLng(_currentPosition);
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -106,31 +85,18 @@ class _LocationPickerState extends State<LocationPicker> {
           _loading
               ? Center(child: CircularProgressIndicator())
               : Expanded(
-                  child: GoogleMap(
-                    onMapCreated: _onMapCreated,
-                    initialCameraPosition: CameraPosition(
-                      target: _currentPosition,
-                      zoom: 16.0,
-                    ),
-                    onCameraMove: _onCameraMove,
-                    onCameraIdle: _onCameraIdle,
-                    myLocationEnabled: true,
-                    myLocationButtonEnabled: true,
-                  ),
+                  child: Container(),
                 ),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
-
-              plusCode
-              ,
+              plusCode,
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
           ),
           ElevatedButton(
             onPressed: () {
-
-             Navigator.pop(context, plusCode);
+              Navigator.pop(context,[plusCode,_currentPosition]);
             },
             child: Text('Select Location'),
           ),

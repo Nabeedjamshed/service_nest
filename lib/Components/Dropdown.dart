@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 class Dropdown extends StatefulWidget {
   final Function(String) getRole; // Callback to pass the selected value
   List<String> Items;
-
-  Dropdown({required this.getRole,required this.Items ,super.key});
+  String? InitialValue;
+  Dropdown({required this.getRole, required this.Items,this.InitialValue, super.key});
 
   @override
   State<Dropdown> createState() => _DropdownState();
@@ -31,7 +31,7 @@ class _DropdownState extends State<Dropdown> {
           hintStyle:
               TextStyle(color: Colors.grey[500], fontWeight: FontWeight.w500),
         ),
-        value: selectedValue,
+        value: widget.InitialValue,
         items: widget.Items.map((String value) {
           return DropdownMenuItem<String>(
             value: value,

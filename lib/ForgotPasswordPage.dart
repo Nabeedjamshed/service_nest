@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';  // Add Firebase Auth import
+import 'package:firebase_auth/firebase_auth.dart'; // Add Firebase Auth import
 import 'package:service_nest/Components/Mybutton.dart';
 import 'package:service_nest/Components/TextInput.dart';
 
@@ -12,7 +12,7 @@ class Forgotpasswordpage extends StatefulWidget {
 
 class _ForgotpasswordpageState extends State<Forgotpasswordpage> {
   final EmailController = TextEditingController();
-  final FirebaseAuth _auth = FirebaseAuth.instance; // Initialize FirebaseAuth
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   void ConfirmButton() async {
     // Show loading indicator
@@ -35,7 +35,9 @@ class _ForgotpasswordpageState extends State<Forgotpasswordpage> {
     try {
       await _auth.sendPasswordResetEmail(email: EmailController.text.trim());
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Password reset email sent!')),
+        const SnackBar(
+            content: Text(
+                'If an account with this email exists, a password reset link has been sent!')),
       );
     } on FirebaseAuthException catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
