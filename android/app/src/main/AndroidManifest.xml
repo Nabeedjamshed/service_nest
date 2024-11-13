@@ -5,7 +5,7 @@
 
 
     <application
-        android:label="service_nest"
+        android:label="Service Nest"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
         android:hardwareAccelerated="true">

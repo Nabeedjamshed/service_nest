@@ -47,10 +47,19 @@ dependencies:
   cloud_firestore: ^5.4.4
   firebase_storage: ^12.3.4
   flutter_native_splash: ^2.4.2
+  flutter_launcher_icons: ^0.14.1
   flutter_map_math: ^0.1.7
+  url_launcher: ^6.3.1
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "Assets/AppIcon.png"
+  adaptive_icon_background: "#ffffff"
+  adaptive_icon_foreground: "Assets/AppIcon2.png"
 
 
 

@@ -23,7 +23,6 @@ Future<void> _checkUserRoleAndRedirect(BuildContext context) async {
     if (user != null) {
       String uid = user.uid;
       DocumentSnapshot userDoc = await FirebaseFirestore.instance.collection('users').doc(uid).get();
-      print(userDoc['role']);
       if (userDoc.exists) {
         String role = userDoc['role'];
         

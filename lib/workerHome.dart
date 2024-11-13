@@ -53,6 +53,8 @@ class _WorkerHomeState extends State<workerHome> {
               ? userDoc['address']
               : 'Select your Shop Location';
           ProfileImageUrl = userDoc['profileImageUrl'];
+          workerCurrentPosition = LatLng(userDoc['workerPosition']['latitude'],
+              userDoc['workerPosition']['longitude']);
         });
       }
     } catch (e) {
@@ -88,7 +90,6 @@ class _WorkerHomeState extends State<workerHome> {
           .doc(uid)
           .update({"profileImageUrl": ProfileImageUrl});
       setState(() {});
-      print("upload Successful");
     } catch (e) {
       print(e);
     }
@@ -132,10 +133,10 @@ class _WorkerHomeState extends State<workerHome> {
 
                     await FirebaseAuth.instance.signOut();
 
-                    Navigator.pushReplacement(context,
-                        MaterialPageRoute(builder: (context) {
-                      return Loginpage();
-                    }));
+                    Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(builder: (context) => Loginpage()),
+                      (Route<dynamic> route) => false,
+                    );
                   },
                   child: Text("OK")),
             ],
@@ -245,7 +246,7 @@ class _WorkerHomeState extends State<workerHome> {
                       Items: [
                         "Electrician",
                         "Plumber",
-                        "AC Repairer",
+                        "Mechanics",
                         "Maid",
                         "Carpenter",
                         "Painter",

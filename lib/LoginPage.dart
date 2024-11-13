@@ -49,23 +49,22 @@ class _LoginpageState extends State<Loginpage> {
       // Check if the user document exists and get the role
       if (userDoc.exists) {
         String role = userDoc['role'];
-        print(role);
+
         // Close the loading indicator
         Navigator.pop(context);
 
         // Redirect based on the role
         if (role == 'Customer') {
-          Navigator.pushReplacement(
-            context,
+          Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(builder: (context) => customerHome()),
+            (Route<dynamic> route) => false,
           );
         } else if (role == 'Worker') {
-          Navigator.pushReplacement(
-            context,
+          Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(builder: (context) => workerHome()),
+            (Route<dynamic> route) => false,
           );
         } else {
-          // Handle any unexpected role
           showDialog(
             context: context,
             builder: (context) {
@@ -137,7 +136,11 @@ class _LoginpageState extends State<Loginpage> {
       appBar: AppBar(
         toolbarHeight: 35,
         backgroundColor: Colors.transparent,
-        leading: const BackButton(),
+        leading: BackButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
       ),
       bottomNavigationBar: BottomAppBar(
         color: Colors.transparent,
@@ -215,7 +218,7 @@ class _LoginpageState extends State<Loginpage> {
               ),
               const SizedBox(height: 25),
               Mybutton(
-                buttonText: "SignIn",
+                buttonText: "Sign In",
                 onTap: SignUserIn,
               ),
               const SizedBox(height: 50),

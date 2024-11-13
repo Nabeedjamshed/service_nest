@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:service_nest/AccountType.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'dart:io';
 
 class Welcomepage extends StatefulWidget {
   const Welcomepage({super.key});
@@ -41,7 +43,7 @@ class _ManageState extends State<Welcomepage> {
               ),
             )),
         backgroundColor:
-        Colors.grey[300], // Use plain color if you remove image
+            Colors.grey[300], // Use plain color if you remove image
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           title: const Text("Welcome",

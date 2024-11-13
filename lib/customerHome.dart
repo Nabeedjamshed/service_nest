@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:service_nest/Components/RoleContainer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -80,10 +81,10 @@ class _customerHomeState extends State<customerHome> {
 
                     await FirebaseAuth.instance.signOut();
 
-                    Navigator.pushReplacement(context,
-                        MaterialPageRoute(builder: (context) {
-                      return Loginpage();
-                    }));
+                    Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(builder: (context) => Loginpage()),
+                      (Route<dynamic> route) => false,
+                    );
                   },
                   child: Text("OK")),
             ],
@@ -95,82 +96,92 @@ class _customerHomeState extends State<customerHome> {
   Widget build(BuildContext context) {
     deviceWidth = MediaQuery.of(context).size.width;
     deviceHeight = MediaQuery.of(context).size.height;
-    return SafeArea(
-        child: Scaffold(
-      body: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              IconButton(
-                onPressed: () {
-                  showDialog(
-                      context: context,
-                      builder: (context) {
-                        return const Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      });
+    return PopScope(
+      onPopInvokedWithResult: (popDisposition, result) async {
+        SystemNavigator.pop();
+        return;
+      },
+      child: SafeArea(
+          child: Scaffold(
+        body: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                IconButton(
+                  onPressed: () {
+                    showDialog(
+                        context: context,
+                        builder: (context) {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        });
 
-                  SignUserOut(context);
-                },
-                icon: Icon(Icons.logout),
-              )
-            ],
-          ),
-          Center(
-            child: Image.asset(
-              "Assets/ServiceLogo.png",
-              height: 180,
-              width: 300,
-            ),
-          ),
-          const SizedBox(height: 50),
-          SizedBox(
-            height: deviceHeight! * 0.6,
-            child: GridView.count(
-              shrinkWrap: true,
-              crossAxisCount: 2,
-              padding: EdgeInsets.all(20),
-              crossAxisSpacing: 20,
-              mainAxisSpacing: 30,
-              children: <Widget>[
-                Rolecontainer(
-                  Role: "Electrician",
-                  ImagePath: "Assets/Electrician.png",
-                  ContainerColor: Colors.blue,
-                  customerposition: _currentposition,
-                ),
-                Rolecontainer(
-                    Role: "Plumber",
-                    ImagePath: "Assets/Plumber.png",
-                    ContainerColor: Colors.green,
-                    customerposition: _currentposition),
-                Rolecontainer(
-                    Role: "Carpenter",
-                    ImagePath: "Assets/Carpenter.png",
-                    ContainerColor: const Color.fromARGB(255, 177, 175, 85),
-                    customerposition: _currentposition),
-                Rolecontainer(
-                    Role: "Painter",
-                    ImagePath: "Assets/Painter.png",
-                    ContainerColor: Colors.orange,
-                    customerposition: _currentposition),
-                Rolecontainer(
-                    Role: "Maid",
-                    ImagePath: "Assets/Maid.png",
-                    ContainerColor: Colors.teal,
-                    customerposition: _currentposition),
-                Rolecontainer(
-                    Role: "Parlor Ease",
-                    ImagePath: "Assets/Parlor.png",
-                    ContainerColor: const Color.fromARGB(255, 252, 229, 129),
-                    customerposition: _currentposition)
+                    SignUserOut(context);
+                  },
+                  icon: Icon(Icons.logout),
+                )
               ],
             ),
-          )
-        ],
-      ),
-    ));
+            Center(
+              child: Image.asset(
+                "Assets/ServiceLogo.png",
+                height: 180,
+                width: 300,
+              ),
+            ),
+            const SizedBox(height: 50),
+            Expanded(
+              child: GridView.count(
+                crossAxisCount: 2,
+                padding: EdgeInsets.all(20),
+                crossAxisSpacing: 20,
+                mainAxisSpacing: 30,
+                children: <Widget>[
+                  Rolecontainer(
+                    Role: "Electrician",
+                    ImagePath: "Assets/Electrician.png",
+                    ContainerColor: Colors.blue,
+                    customerposition: _currentposition,
+                  ),
+                  Rolecontainer(
+                      Role: "Plumber",
+                      ImagePath: "Assets/Plumber.png",
+                      ContainerColor: Colors.green,
+                      customerposition: _currentposition),
+                  Rolecontainer(
+                      Role: "Carpenter",
+                      ImagePath: "Assets/Carpenter.png",
+                      ContainerColor: const Color.fromARGB(255, 177, 175, 85),
+                      customerposition: _currentposition),
+                  Rolecontainer(
+                      Role: "Painter",
+                      ImagePath: "Assets/Painter.png",
+                      ContainerColor: Colors.orange,
+                      customerposition: _currentposition),
+                  Rolecontainer(
+                      Role: "Maid",
+                      ImagePath: "Assets/Maid.png",
+                      ContainerColor: Colors.teal,
+                      customerposition: _currentposition),
+                  Rolecontainer(
+                      Role: "Parlor Ease",
+                      ImagePath: "Assets/Parlor.png",
+                      ContainerColor: const Color.fromARGB(255, 252, 229, 129),
+                      customerposition: _currentposition),
+                  Rolecontainer(
+                    Role: "Mechanics",
+                    ImagePath: "Assets/Mechanics.png",
+                    ContainerColor: const Color.fromARGB(255, 76, 138, 253),
+                    customerposition: _currentposition,
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
+      )),
+    );
   }
 }

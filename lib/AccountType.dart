@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:service_nest/LoginPage.dart';
 
-
 class Accounttype extends StatefulWidget {
   const Accounttype({super.key});
 
@@ -21,7 +20,8 @@ class _AccounttypeState extends State<Accounttype> {
             Navigator.pop(context);
           },
         ),
-        title: const Center(
+        title: Padding(
+          padding: const EdgeInsets.only(left: 40),
           child: Text("Account Type"),
         ),
       ),
@@ -43,8 +43,7 @@ class _AccounttypeState extends State<Accounttype> {
                   onTap: () {
                     Navigator.of(context)
                         .push(MaterialPageRoute(builder: (context) {
-                      return const Loginpage(
-                      );
+                      return const Loginpage();
                     }));
                   },
                   child: Container(
@@ -74,9 +73,7 @@ class _AccounttypeState extends State<Accounttype> {
                 onTap: () {
                   Navigator.of(context)
                       .push(MaterialPageRoute(builder: (context) {
-                    return const Loginpage(
-                    
-                    );
+                    return const Loginpage();
                   }));
                 },
                 child: Container(

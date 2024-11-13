@@ -62,18 +62,14 @@ class Signuppage extends StatelessWidget {
           }
 
           if (userRole == "Worker") {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => workerHome(),
-              ),
+            Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(builder: (context) => workerHome()),
+              (Route<dynamic> route) => false,
             );
           } else if (userRole == "Customer") {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => customerHome(),
-              ),
+            Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(builder: (context) => customerHome()),
+              (Route<dynamic> route) => false,
             );
           }
         }).catchError((error) {
